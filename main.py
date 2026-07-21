@@ -3,6 +3,15 @@ from standards_reader import header
 from CASN import NameDict
 from CASN import ReverseNameDict
 run_condition = True
+while True:
+    mode = input("To search a database - type 'search'\nTo perform a table analysis - type 'summary'\n\n")
+    if mode.lower() == "search":
+        break
+    elif mode.lower() == "summary":
+        break
+    else:
+        print("Invalid mode\n")
+
 
 def RS_Search(contaminant, concentration):
     print()
@@ -35,26 +44,37 @@ def check_contaminant_name(contaminant):
             print(f"Contaminant '{contaminant}' not recognized. Please check the contaminant name or CASN, or update our CASN dictionary\n")
             contaminant = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
 
-while run_condition:
-    contaminant_0 = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
-    if contaminant_0.lower() == 'exit': # end condition
-        run_condition = False
-        print("Exiting the program.")
-        break
-    else:
-        contaminant_name = check_contaminant_name(contaminant_0)
-        if contaminant_name == None:
+
+if mode.lower() == "search":
+    while True:
+        contaminant_0 = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
+        if contaminant_0.lower() == 'exit': # end condition
+            run_condition = False
             print("Exiting the program.")
             break
         else:
-            contaminant = NameDict[contaminant_name] # grabs CASN for CSV search
+            contaminant_name = check_contaminant_name(contaminant_0)
+            if contaminant_name == None:
+                run_condition = False
+                print("Exiting the program.")
+                break
+            else:
+                contaminant = NameDict[contaminant_name] # grabs CASN for CSV search
 
-    while True:
-        try:
-            concentration = float(input(f"Enter the concentration for {contaminant_name}: "))
+        while True:
+            try:
+                concentration = float(input(f"Enter the concentration for {contaminant_name}: "))
+                break
+            except ValueError:
+                print("Invalid concentration. Please enter a numeric value.\n")
+                continue
+
+        RS_Search(contaminant, concentration)
+        if not run_condition:
             break
-        except ValueError:
-            print("Invalid concentration. Please enter a numeric value.\n")
-            continue
+else:
+    from summary import 
+    print()
+    SummaryAnalysis(StandardsDict, NameDict)
+    
 
-    RS_Search(contaminant, concentration)

@@ -29,7 +29,8 @@ def check_contaminant_name(contaminant):
         elif contaminant.lower() in NameDict:
             return contaminant.lower()
         elif contaminant in ReverseNameDict:
-            return ReverseNameDict[contaminant[0]]
+            for name in ReverseNameDict[contaminant]:
+                return name
         else:
             print(f"Contaminant '{contaminant}' not found. Please check the contaminant name or CASN, or update our CASN dictionary\n")
             contaminant = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")

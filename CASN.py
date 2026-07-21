@@ -183,3 +183,13 @@ NameDict = {
     "xylenes": "1330-20-7",
     "zinc": "7440-66-6"
 }
+
+def build_reverse_dict(d):
+    reverse_dict = {}
+    for key, value in d.items():
+        if value not in reverse_dict:
+            reverse_dict[value] = []
+        reverse_dict[value].append(key)
+    return reverse_dict
+
+ReverseNameDict = build_reverse_dict(NameDict)

@@ -9,12 +9,12 @@ def RS_Search(contaminant, concentration):
     SSL = False
     if contaminant in StandardsDict:
         for limit in StandardsDict[contaminant]:
-            if type(limit) != str and concentration >= limit:
+            if type(limit) != str and concentration >= limit: # check if limit is a number and if concentration exceeds the limit
                 print(f"Exceedance detected for {contaminant}:")
                 print(header[1:])
                 print(f"{StandardsDict[contaminant]}\n")
                 return
-            elif limit == 'Site Specific':
+            elif limit == 'Site Specific': # specific catch for site-specific limits
                 print(f"Exceedance possible, site-specific limit for {contaminant}: {StandardsDict[contaminant]}\n")
                 SSL = True
         if not SSL:
@@ -24,20 +24,20 @@ def RS_Search(contaminant, concentration):
 
 def check_contaminant_name(contaminant):
     while True:
-        if contaminant.lower() == 'exit':
+        if contaminant.lower() == 'exit': # exit condition
             return None
-        elif contaminant.lower() in NameDict:
+        elif contaminant.lower() in NameDict: # check if input is a recognized contaminant name
             return contaminant.lower()
-        elif contaminant in ReverseNameDict:
+        elif contaminant in ReverseNameDict: # check if input is a recognized CASN
             for name in ReverseNameDict[contaminant]:
                 return name
         else:
-            print(f"Contaminant '{contaminant}' not found. Please check the contaminant name or CASN, or update our CASN dictionary\n")
+            print(f"Contaminant '{contaminant}' not recognized. Please check the contaminant name or CASN, or update our CASN dictionary\n")
             contaminant = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
 
 while run_condition:
     contaminant_0 = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
-    if contaminant_0.lower() == 'exit':
+    if contaminant_0.lower() == 'exit': # end condition
         run_condition = False
         print("Exiting the program.")
         break
@@ -47,7 +47,7 @@ while run_condition:
             print("Exiting the program.")
             break
         else:
-            contaminant = NameDict[contaminant_name]
+            contaminant = NameDict[contaminant_name] # grabs CASN for CSV search
 
     while True:
         try:

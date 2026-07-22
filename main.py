@@ -2,7 +2,10 @@ from standards_reader import StandardsDict
 from standards_reader import header
 from CASN import NameDict
 from CASN import ReverseNameDict
+from summary import SummaryAnalysis
+from rs_search import RS_Search
 run_condition = True
+
 while True:
     mode = input("To search a database - type 'search'\nTo perform a table analysis - type 'summary'\n\n")
     if mode.lower() == "search":
@@ -10,26 +13,7 @@ while True:
     elif mode.lower() == "summary":
         break
     else:
-        print("Invalid mode\n")
-
-
-def RS_Search(contaminant, concentration):
-    print()
-    SSL = False
-    if contaminant in StandardsDict:
-        for limit in StandardsDict[contaminant]:
-            if type(limit) != str and concentration >= limit: # check if limit is a number and if concentration exceeds the limit
-                print(f"Exceedance detected for {contaminant}:")
-                print(header[1:])
-                print(f"{StandardsDict[contaminant]}\n")
-                return
-            elif limit == 'Site Specific': # specific catch for site-specific limits
-                print(f"Exceedance possible, site-specific limit for {contaminant}: {StandardsDict[contaminant]}\n")
-                SSL = True
-        if not SSL:
-            print(f"No exceedance detected for {contaminant}\n")
-    else:
-        print(f"{contaminant} not found in current standards database.\n")
+        print("Invalid Mode\n")
 
 def check_contaminant_name(contaminant):
     while True:
@@ -73,8 +57,20 @@ if mode.lower() == "search":
         if not run_condition:
             break
 else:
-    from summary import 
+    while True:
+        try:
+            num_sites = int(input("Enter the number of sites being evaluated and summarized: "))
+            break
+        except ValueError:
+            print("Please input an integer.")
+
+    while True:
+        try:
+            num_analytes = int(input("Enter the number of analytes being evaluated and summarized: "))
+            break
+        except ValueError:
+            print("Please input an integer.")
     print()
-    SummaryAnalysis(StandardsDict, NameDict)
+    SummaryAnalysis(num_sites, num_analytes, StandardsDict, NameDict)
     
 

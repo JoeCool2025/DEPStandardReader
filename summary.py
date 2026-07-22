@@ -1,18 +1,6 @@
-while True:
-    try:
-        num_sites = int(input("Enter the number of sites being evaluated and summarized: "))
-        break
-    except ValueError:
-        print("Please input an integer.")
+from rs_search import RS_Search
 
-while True:
-    try:
-        num_analytes = int(input("Enter the number of analytes being evaluated and summarized: "))
-        break
-    except ValueError:
-        print("Please input an integer.")
-
-def SummaryAnalysis (standards, name):
+def SummaryAnalysis (num_sites, num_analytes, standards, name):
     data_dict = {}
 
     for y in range(0, num_analytes + 1):
@@ -37,6 +25,10 @@ def SummaryAnalysis (standards, name):
 
     for entry in data_dict:
         print(f"{entry}: {data_dict[entry]}")
+        if entry.lower() in name:
+            for conc in data_dict[entry]:
+                RS_Search(name[entry], conc)
+
     
     pass
             

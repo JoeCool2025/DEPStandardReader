@@ -2,7 +2,6 @@ from standards_reader import StandardsDict
 from standards_reader import header
 
 def RS_Search(contaminant, concentration):
-    print()
     SSL = False
     if contaminant in StandardsDict:
         for limit in StandardsDict[contaminant]:
@@ -15,6 +14,8 @@ def RS_Search(contaminant, concentration):
                 print(f"Exceedance possible, site-specific limit for {contaminant}: {StandardsDict[contaminant]}\n")
                 SSL = True
         if not SSL:
-            print(f"No exceedance detected for {contaminant}\n")
+            #print(f"No exceedance detected for {contaminant}\n")
+            return 0
     else:
-        print(f"{contaminant} not found in current standards database.\n")
+        #print(f"{contaminant} not found in current standards database.\n")
+        return 1

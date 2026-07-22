@@ -27,7 +27,8 @@ def SummaryAnalysis (num_sites, num_analytes, standards, name):
         print(f"{entry}: {data_dict[entry]}")
         if entry.lower() in name:
             for conc in data_dict[entry]:
-                RS_Search(name[entry], conc)
+                if type(conc) != str:
+                    RS_Search(name[entry.lower()], conc)
 
     
     pass

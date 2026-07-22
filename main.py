@@ -17,16 +17,20 @@ while True:
 
 def check_contaminant_name(contaminant):
     while True:
-        if contaminant.lower() == 'exit': # exit condition
+        if contaminant is None:
             return None
-        elif contaminant.lower() in NameDict: # check if input is a recognized contaminant name
-            return contaminant.lower()
-        elif contaminant in ReverseNameDict: # check if input is a recognized CASN
-            for name in ReverseNameDict[contaminant]:
-                return name
-        else:
-            print(f"Contaminant '{contaminant}' not recognized. Please check the contaminant name or CASN, or update our CASN dictionary\n")
-            contaminant = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
+        cand = contaminant.strip()
+        if cand.lower() == 'exit':  # exit condition
+            return None
+        # check if input is a recognized contaminant name (case-insensitive)
+        if cand.lower() in NameDict:
+            return cand.lower()
+        # check if input is a recognized CASN (exact match after stripping)
+        if cand in ReverseNameDict:
+            # return the first associated contaminant name in lowercase
+            return ReverseNameDict[cand][0].lower()
+        print(f"Contaminant '{contaminant}' not recognized. Please check the contaminant name or CASN, or update our CASN dictionary\n")
+        contaminant = input("Enter the contaminant name or CASN (or type 'exit' to quit): ")
 
 
 if mode.lower() == "search":
@@ -53,7 +57,12 @@ if mode.lower() == "search":
                 print("Invalid concentration. Please enter a numeric value.\n")
                 continue
 
-        RS_Search(contaminant, concentration)
+        # call the search function and handle return values explicitly
+        result = RS_Search(contaminant, concentration)
+        if result == 1:
+            print(f"{contaminant_name} ({contaminant}) not found in current standards database.\n")
+        elif result == 0:
+            print(f"No exceedance detected for {contaminant_name}\n")
         if not run_condition:
             break
 else:
